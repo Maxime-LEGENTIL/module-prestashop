@@ -1,33 +1,33 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var searchInput = document.getElementById('search-input');
+    var searchButton = document.getElementById('product-search-button');
+    var searchInput = document.getElementById('product-search-input');
     var searchResults = document.getElementById('search-results');
 
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
+    if (searchButton && searchInput) {
+        searchButton.addEventListener('click', function() {
             var query = searchInput.value;
-            console.log('Query:', query);
-            console.log('Search URL:', search_url);
-
             if (query.length > 2) {
-                fetch(search_url + '?q=' + encodeURIComponent(query))
+                fetch('{$search_url}?q=' + encodeURIComponent(query))
                     .then(response => response.json())
                     .then(data => {
-                        console.log('Response data:', data);
                         searchResults.innerHTML = '';
-                        data.products.forEach(product => {
-                            var productElement = document.createElement('div');
-                            productElement.textContent = product.name + ' - ' + product.price; // Utilisation de + au lieu de `
-                            searchResults.appendChild(productElement);
-                        });
+                        if (data.products && data.products.length > 0) {
+                            data.products.forEach(product => {
+                                var productElement = document.createElement('div');
+                                productElement.textContent = product.name + ' - ' + product.price;
+                                searchResults.appendChild(productElement);
+                            });
+                        } else {
+                            searchResults.innerHTML = 'Aucun produit trouvé.';
+                        }
                     })
                     .catch(error => {
                         console.error('Error fetching data:', error);
+                        searchResults.innerHTML = 'Erreur lors de la recherche.';
                     });
             } else {
-                searchResults.innerHTML = '';
+                searchResults.innerHTML = 'Veuillez entrer au moins 3 caractères.';
             }
         });
-    } else {
-        console.error('Search input not found');
     }
 });

@@ -30,10 +30,10 @@ class SearchProducts extends Module
 
     public function hookDisplayHome($params)
     {
-        // Pas sûr de cette méthode ?????
-        $this->context->smarty->assign(array(
-            'product_search_js' => $this->_path . 'views/js/searchproducts.js'
-        ));
+        // Pas sûr de cette méthode
+        //$this->context->smarty->assign(array(
+          //  'product_search_js' => $this->_path . 'views/js/searchproducts.js'
+        //));
 
         return $this->display(__FILE__, 'views/templates/hook/displayHome.tpl');
 
